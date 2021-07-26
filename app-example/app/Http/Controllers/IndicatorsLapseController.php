@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Competicies;
+use App\Models\Indicators;
+use App\Models\IndicatorsLapse;
 use Illuminate\Http\Request;
 
 class IndicatorsLapseController extends Controller
@@ -13,9 +16,10 @@ class IndicatorsLapseController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $indicatorsLapse = IndicatorsLapse::orderBy('id','desc')->paginate();//Para paginar los registros
 
+        return view('indicatorsLapse.index', compact('indicatorsLapse'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -23,7 +27,12 @@ class IndicatorsLapseController extends Controller
      */
     public function create()
     {
-        //
+        //LLAMAMOS AL MODELO COMPETENCIAS
+        $competicies = Competicies::all();
+        $indicators = Indicators::all();
+
+        return view('indicatorsLapse.create', compact('competicies', 'indicators'));
+         
     }
 
     /**
@@ -34,7 +43,15 @@ class IndicatorsLapseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $indicatorsLapse = new IndicatorsLapse();
+
+        $indicatorsLapse->id_competencia = $request->id_competencia;
+        $indicatorsLapse->id_indicador = $request->id_indicador;
+        $indicatorsLapse->lapso_escolar = $request->lapso_escolar;
+
+        $indicatorsLapse->save();
+
+        return view('indicatorsLapse.index');
     }
 
     /**

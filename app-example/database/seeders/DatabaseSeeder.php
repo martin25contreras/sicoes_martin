@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         //$this->call(CursoSeeder::class);
         
-        Curso::factory(50)->create();
+        
 
     }
 }

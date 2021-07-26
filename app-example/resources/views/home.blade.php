@@ -7,5 +7,6 @@
 
     <a href="{{ route('competicies.index')}}">Competicias</a><br>
     <a href="{{ route('indicators.index')}}">Indicadores</a><br>
+    <a href="{{ route('indicatorsLapse.index')}}">Asignación de Indicadores</a><br>
 
 @endsection

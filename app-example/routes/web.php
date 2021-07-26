@@ -4,6 +4,7 @@ use App\Http\Controllers\CompeticiesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;//llamado al controlador
 use App\Http\Controllers\IndicatorsController;
+use App\Http\Controllers\IndicatorsLapseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,12 @@ Route::get('indicators/{indicators}', [IndicatorsController::class, 'show'])->na
 Route::get('indicators/{indicators}/edit',  [IndicatorsController::class, 'edit'])->name('indicators.edit');
 
 Route::put('indicators/{indicators}',  [IndicatorsController::class, 'update'])->name('indicators.update');
+
+// INDICADORES por Lapso === Indicators_lapse
+Route::get('indicatorsLapse', [IndicatorsLapseController::class, 'index'])->name('indicatorsLapse.index');
+
+Route::get('indicatorsLapse/create', [IndicatorsLapseController::class, 'create'])->name('indicatorsLapse.create');
+
+Route::post('indicatorsLapse',  [IndicatorsLapseController::class, 'store'])->name('indicatorsLapse.store');
+
+Route::get('indicatorsLapse/{indicators}', [IndicatorsLapseController::class, 'show'])->name('indicatorsLapse.show');
