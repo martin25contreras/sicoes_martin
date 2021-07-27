@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;//llamado al controlador
 use App\Http\Controllers\IndicatorsController;
 use App\Http\Controllers\IndicatorsLapseController;
+use App\Http\Controllers\StaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +54,16 @@ Route::get('indicatorsLapse/create', [IndicatorsLapseController::class, 'create'
 Route::post('indicatorsLapse',  [IndicatorsLapseController::class, 'store'])->name('indicatorsLapse.store');
 
 Route::get('indicatorsLapse/{indicators}', [IndicatorsLapseController::class, 'show'])->name('indicatorsLapse.show');
+
+// Personal === Staff
+Route::get('staff', [StaffController::class, 'index'])->name('staff.index');
+
+Route::get('staff/create', [StaffController::class, 'create'])->name('staff.create');
+
+Route::post('staff',  [StaffController::class, 'store'])->name('staff.store');
+
+Route::get('staff/{staff}', [StaffController::class, 'show'])->name('staff.show');
+
+Route::get('staff/{staff}/edit',  [StaffController::class, 'edit'])->name('staff.edit');
+
+Route::put('staff/{staff}',  [StaffController::class, 'update'])->name('staff.update');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Staff;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
@@ -13,7 +14,9 @@ class StaffController extends Controller
      */
     public function index()
     {
-        //
+        $staff = Staff::orderBy('id','desc')->paginate();//Para paginar los registros
+
+        return view('staff.index', compact('staff'));
     }
 
     /**
@@ -23,7 +26,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        //
+        return view('staff.create');
     }
 
     /**
@@ -34,7 +37,26 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fechas = ' ';
+        $fechas = explode("-", $request->fecha);
+
+        $staff = new Staff();
+
+        $staff->nombres = $request->nombres;
+        $staff->apellidos = $request->apellidos;
+        $staff->cedula = $request->cedula;
+        $staff->direccion = $request->direccion;
+        $staff->correo = $request->correo;
+        $staff->telefono = $request->telefono;
+        $staff->telefono_casa = $request->telefono_casa;
+        $staff->dia_nacimiento = $fechas[2];
+        $staff->mes_nacimiento = $fechas[1];
+        $staff->ano_nacimiento = $fechas[0];
+        $staff->cargo = $request->cargo;
+
+        $staff->save();
+
+        return view('staff.index');
     }
 
     /**
@@ -45,7 +67,9 @@ class StaffController extends Controller
      */
     public function show($id)
     {
-        //
+        $staff = Staff::find($id);
+
+        return view('staff.show', compact('staff'));
     }
 
     /**
@@ -54,9 +78,9 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Staff $staff)
     {
-        //
+        return view('staff.edit', compact('staff'));
     }
 
     /**
@@ -66,9 +90,26 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Staff $staff)
     {
-        //
+        $fechas = ' ';
+        $fechas = explode("-", $request->fecha);
+
+        $staff->nombres = $request->nombres;
+        $staff->apellidos = $request->apellidos;
+        $staff->cedula = $request->cedula;
+        $staff->direccion = $request->direccion;
+        $staff->correo = $request->correo;
+        $staff->telefono = $request->telefono;
+        $staff->telefono_casa = $request->telefono_casa;
+        $staff->dia_nacimiento = $fechas[2];
+        $staff->mes_nacimiento = $fechas[1];
+        $staff->ano_nacimiento = $fechas[0];
+        $staff->cargo = $request->cargo;
+
+        $staff->save();
+
+        return redirect()->route('staff.show', $staff->id);
     }
 
     /**
