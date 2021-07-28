@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CompeticiesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;//llamado al controlador
 use App\Http\Controllers\IndicatorsController;
 use App\Http\Controllers\IndicatorsLapseController;
+use App\Http\Controllers\StaffAreaController;
 use App\Http\Controllers\StaffController;
 
 /*
@@ -67,3 +69,27 @@ Route::get('staff/{staff}', [StaffController::class, 'show'])->name('staff.show'
 Route::get('staff/{staff}/edit',  [StaffController::class, 'edit'])->name('staff.edit');
 
 Route::put('staff/{staff}',  [StaffController::class, 'update'])->name('staff.update');
+
+// Áreas === area
+Route::get('area', [AreaController::class, 'index'])->name('area.index');
+
+Route::get('area/create', [AreaController::class, 'create'])->name('area.create');
+
+Route::post('area',  [AreaController::class, 'store'])->name('area.store');
+
+Route::get('area/{area}', [AreaController::class, 'show'])->name('area.show');
+
+Route::get('area/{area}/edit',  [AreaController::class, 'edit'])->name('area.edit');
+
+Route::put('area/{area}',  [AreaController::class, 'update'])->name('area.update');
+
+// Asignación de Personal a las areas de formacion = Staffarea
+Route::get('Staffarea', [StaffAreaController::class, 'index'])->name('Staffarea.index');
+
+Route::get('Staffarea/create', [StaffAreaController::class, 'create'])->name('Staffarea.create');
+
+Route::post('Staffarea',  [StaffAreaController::class, 'store'])->name('Staffarea.store');
+
+Route::post('Staffarea/asigne',  [StaffAreaController::class, 'asigne'])->name('Staffarea.asigne');
+
+Route::post('Staffarea/show', [StaffAreaController::class, 'show'])->name('Staffarea.show');

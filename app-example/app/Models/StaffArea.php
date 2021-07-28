@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class StaffArea extends Model
 {
     use HasFactory;
+
+    protected $table= "staff_has_area";
 }

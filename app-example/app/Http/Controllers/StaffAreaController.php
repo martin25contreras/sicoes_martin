@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
+use App\Models\Staff;
+use App\Models\StaffArea;
 use Illuminate\Http\Request;
 
 class StaffAreaController extends Controller
@@ -13,7 +16,7 @@ class StaffAreaController extends Controller
      */
     public function index()
     {
-        //
+        return view('Staffarea.index');
     }
 
     /**
@@ -23,7 +26,9 @@ class StaffAreaController extends Controller
      */
     public function create()
     {
-        //
+        $staff = Staff::all();
+
+        return view('Staffarea.create', compact('staff'));
     }
 
     /**
@@ -34,7 +39,25 @@ class StaffAreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $id = $request->personal;
+        $staff = Staff::where('cedula', '=', $id)->get();
+        $area = Area::all();
+
+        return view('Staffarea.show', compact('staff', 'area'));
+    }
+    public function asigne(Request $request)
+    {
+        for ($index=0; $index < count($request->array); $index++) { 
+            $staffarea = new StaffArea();
+            $staffarea->cedula_personal = $request->cedula;
+            $staffarea->id_area = $request->array[$index];
+
+            echo $request->array[$index]."<br>";
+
+            $staffarea->save();
+        }
+        
+
     }
 
     /**
@@ -43,9 +66,12 @@ class StaffAreaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $id = $request->personal;
+        $staff = Staff::find($id);
+
+        return view('Staffarea.show', compact('staff'));
     }
 
     /**

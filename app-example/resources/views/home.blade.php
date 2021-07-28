@@ -9,6 +9,7 @@
     <a href="{{ route('indicators.index')}}">Indicadores</a><br>
     <a href="{{ route('indicatorsLapse.index')}}">Asignación de Indicadores</a><br>
     <a href="{{ route('staff.index')}}">Personal</a><br>
-     <a href="{{ route('area.index')}}">Área</a><br>
+    <a href="{{ route('area.index')}}">Área</a><br>
+    <a href="{{ route('Staffarea.index')}}">Asignar Áreas de Formación</a><br>
 
 @endsection
