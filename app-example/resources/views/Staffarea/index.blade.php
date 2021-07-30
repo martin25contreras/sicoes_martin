@@ -7,34 +7,24 @@
     <a href="{{ route('Staffarea.create') }}">Asignar Personal</a>
     
     <br><br>
-    {{-- <table border="1">
+    <table border="1">
         <thead>
             <tr>
-                <td>Nombres</td>
-                <td>Apellidos</td>
-                <td>Correo</td>
-                <td>Teléfono</td>
+                <td>Docente</td>
                 <td>Cargo</td>
-                <td>Acciones</td>
+                <td>Área de Formación</td>
+                
             </tr>
         </thead>
         <tbody>
-            @foreach ($staff as $item)
+            @foreach ($staffarea as $item)
             <tr> 
-                <td>{{ $item->nombres;}}</td>
-                <td>{{ $item->apellidos;}}</td>
-                <td>{{ $item->correo;}}</td>
-                <td>{{ $item->telefono;}}</td>
+                <td>{{ $item->nombres;}} {{ $item->apellidos;}}</td>
                 <td>{{ $item->cargo;}}</td>
-                <td> 
-                    <a href="{{ route('staff.show', $item->id) }}">
-                        Editar
-                    </a>
-                </td>
-                  
+                <td>{{ $item->nombre;}}</td>
             </tr>
         @endforeach
         </tbody>
-    </table> --}}
+    </table>
     {{-- {{ $competicies ->links(); }}  --}}
 @endsection

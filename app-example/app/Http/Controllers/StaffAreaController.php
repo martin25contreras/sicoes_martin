@@ -6,9 +6,17 @@ use App\Models\Area;
 use App\Models\Staff;
 use App\Models\StaffArea;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StaffAreaController extends Controller
 {
+    /**
+     * AQUI HAY QUE AGREGAR EL ID DE CADA UNA DE LAS MATERIAS INTEGRALES
+     * matematica, lenguaje, ciencia naturales, ciencia sociales, estetica, ser y vivir 
+     * DE LAS 3 SECCIONES
+     */
+    protected $ListadoAreaIntegrales = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +24,12 @@ class StaffAreaController extends Controller
      */
     public function index()
     {
-        return view('Staffarea.index');
+        $staffarea = DB::table('staff_has_area')
+                    ->join('area', 'area.id', '=', 'staff_has_area.id_area')
+                    ->join('staff', 'staff.cedula', '=', 'staff_has_area.cedula_personal')
+                    ->select('area.nombre', 'staff.nombres', 'staff.apellidos', 'staff.cargo')
+                    ->get();
+        return view('Staffarea.index', compact('staffarea'));
     }
 
     /**
@@ -26,7 +39,7 @@ class StaffAreaController extends Controller
      */
     public function create()
     {
-        $staff = Staff::all();
+        $staff = Staff::all();        
 
         return view('Staffarea.create', compact('staff'));
     }
@@ -42,19 +55,81 @@ class StaffAreaController extends Controller
         $id = $request->personal;
         $staff = Staff::where('cedula', '=', $id)->get();
         $area = Area::all();
+        $staffarea = DB::table('staff_has_area')
+                    ->join('area', 'area.id', '=', 'staff_has_area.id_area')
+                    ->select('staff_has_area.id_area')
+                    ->get();
+        $error = ' ';
 
-        return view('Staffarea.show', compact('staff', 'area'));
+        return view('Staffarea.show', compact('staff', 'area', 'staffarea', 'error'));
     }
     public function asigne(Request $request)
     {
+        $areasAsignadas = [];
+        $contadorAreas=0;
+        $staffarea2 = DB::table('staff_has_area')
+                    ->join('area', 'area.id', '=', 'staff_has_area.id_area')
+                    ->select('staff_has_area.id_area')
+                    ->get();
+
+        foreach($staffarea2 as $item){
+            $areasAsignadas[$contadorAreas] = $item->id_area;
+            $contadorAreas++;
+        }        
+       
+        $existe = false;
         for ($index=0; $index < count($request->array); $index++) { 
             $staffarea = new StaffArea();
             $staffarea->cedula_personal = $request->cedula;
             $staffarea->id_area = $request->array[$index];
 
-            echo $request->array[$index]."<br>";
+            $contadorAreas=0;
+            
+            $existe = false;
 
-            $staffarea->save();
+            for ($index2=0; $index2 < count($this->ListadoAreaIntegrales); $index2= $index2+3) {                
+                
+                if( $request->array[$index] == $this->ListadoAreaIntegrales[$index2]){
+                    if($areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2+1] || 
+                        $areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2+2])
+                        $existe = true;                                       
+                } else
+                    if( $request->array[$index] == $this->ListadoAreaIntegrales[$index2+1]){
+                        if($areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2] || 
+                            $areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2+2])
+                            $existe = true;                                         
+                    }  
+                    else
+                        if( $request->array[$index] == $this->ListadoAreaIntegrales[$index2+2]){
+                            if($areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2+1] || 
+                                $areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2])
+                                $existe = true;                                             
+                        }  
+                $contadorAreas++;
+            }
+            if($existe == false ){
+                $staffarea->save();
+
+                $staffarea = DB::table('staff_has_area')
+                    ->join('area', 'area.id', '=', 'staff_has_area.id_area')
+                    ->join('staff', 'staff.cedula', '=', 'staff_has_area.cedula_personal')
+                    ->select('area.nombre', 'staff.nombres', 'staff.apellidos', 'staff.cargo')
+                    ->get();
+                return view('Staffarea.index', compact('staffarea'));
+            }
+            else {
+                $id = $request->cedula;
+                $error = "No puedes tener mas materias integrales iguales";
+                $staff = Staff::where('cedula', '=', $id)->get();
+                $area = Area::all();
+                $staffarea = DB::table('staff_has_area')
+                            ->join('area', 'area.id', '=', 'staff_has_area.id_area')
+                            ->select('staff_has_area.id_area')
+                            ->get();
+
+                return view('Staffarea.show', compact('staff', 'area', 'staffarea', 'error'));
+                
+            }
         }
         
 
