@@ -1,34 +1,45 @@
-@extends('layouts.plantilla')
+ <div class="content-table"> 
+    <div class="row">
 
-@section('title', 'indicators Edit')
+        <div class="col-md-3">
+            <h3 class="left"><i class="fa fa-chart-pie"></i>{{__('Editar Indicadores')}} </h3> 
 
-@section('content')
-    <h1>En esta pagina podras editar su Indicador</h1>
-    <form action="{{ route('indicators.update', $indicators) }}" method="post"> 
-        
-        @csrf
+        </div>
 
-        @method('put')
+        <div class="col-md-9">
 
-        <label for="">Nombre del Indicador: <br> 
-            <input type="text" name="nombre" value="{{ $indicators->nombre; }}">
-        </label><br><br>  
-        <label for="">Materia: <br> 
-            <select name="materia" >
-                <option value="{{ $indicators->materia; }}">{{ $indicators->materia; }}</option>
-                <option value="Mat">Matemática</option>
-                <option value="Len">Lenguaje</option>
-                <option value="Ci_Na">Ciencia Naturales</option>
-                <option value="Ci_So">Ciencia Sociales</option>
-                <option value="In">Inglés</option>
-                <option value="Est">Educación Estética</option>
-                <option value="Ed_fi">Educación Física</option>
-                <option value="Ed_Fe">Educación para la Fé</option>
-                <option value="Ludo">Ludoteca</option>
-                <option value="Inf">Informática</option>
-                <option value="Ref">Refuerzo Pedadagógio</option>
-            </select>
-        </label><br><br>          
-        <input type="submit" value="Actualizar">
-    </form>
-@endsection
+            <div class="content-space te-0">
+                {{-- {{ Form::label('', __('En esta pagina podras editar una indicators'), ['class' => 'mb-4'])}} --}}
+
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="note-footer mb-4"><i class="fa fa-exclamation"></i>
+                        {{__('En esta pagina podras editar una indicadores')}}
+                    </div>
+                </div> 
+
+                {{ Form::open(['route'=>'indicators.update','id'=>'frmUpdate','autocomplete'=>'Off', 'class' => 'validate' ]) }}
+
+                    {{ Form::hidden('id', (isset($item['crypt_id']))?$item['crypt_id']:"")}}
+
+                    <div class="row">
+                        <div class="col-mx-12 col-sm-12 col-md-8 mb-3">
+                            {{ Form::label('nombre', __('Nombre Indicadores'), ['class' => 'required mb-1'])}}
+                            {{ Form::text('nombre', (isset($item['nombre']))?$item['nombre']:"", ['class' => 'form-control required', 'id'=> 'nombre_indicators','placeholder'=>'Indicadores','maxlength'=>'50']) }}
+                        </div>
+                    </div>
+
+                    <div class="col-5 mx-auto">
+                        <a class="btn btn-secondary back link_ajax" data-dataType="html" href="{{route('indicators')}}">{{ __('Back') }} </a>
+
+                        {{ Form::button(__('Save'), [ 'id' => 'update','class' => 'btn btn-primary save', 'type' => 'submit']) }}
+                    </div>
+                   
+                {{ Form::close() }} 
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

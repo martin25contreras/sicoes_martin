@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -13,7 +14,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+            //
     ];
 
     /**
@@ -22,20 +23,60 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontFlash = [
-        'current_password',
         'password',
         'password_confirmation',
     ];
 
     /**
-     * Register the exception handling callbacks for the application.
+     * Report or log an exception.
      *
+     * @param  \Throwable  $exception
      * @return void
+     *
+     * @throws \Throwable
      */
-    public function register()
+    public function report(Throwable $exception)
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+        parent::report($exception);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
+     */
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            return redirect('login')->with('msg', ["type" => "warning", "message" => __("Page Expired")]);
+        }
+
+        return parent::render($request, $exception);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        //dd(\Request::ajax());
+        //dd($request->expectsJson());
+
+        if ($request->expectsJson()) {
+            $result['status'] = 0;
+            $result['message'] = __("Unauthenticated User");
+            $result['data'] = null;
+            $result['type_message'] = 'error';
+            return response()->json($result, 200);
+        } else {
+            if (\Request::ajax()) {
+                return redirect()->route('errors.unauthenticated');
+            }
+            return redirect()->guest('login');
+            //return redirect()->guest('403');
+            //return abort(403);
+            //return view('errors.403');
+        }
     }
 }

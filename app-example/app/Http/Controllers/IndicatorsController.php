@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Indicators;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class IndicatorsController extends Controller
 {
@@ -14,8 +18,7 @@ class IndicatorsController extends Controller
      */
     public function index()
     {
-        $indicators = Indicators::orderBy('id','desc')->paginate();//Para paginar los registros
-
+        $indicators = Indicators::all();
 
         return view('indicators.index', compact('indicators'));
     }
@@ -27,7 +30,11 @@ class IndicatorsController extends Controller
      */
     public function create()
     {
-        return view('indicators.create');
+        if (\Request::ajax()) {
+            return view('indicators.create');
+        } else {
+            return Redirect::to('home');
+        }
     }
 
     /**
@@ -38,29 +45,52 @@ class IndicatorsController extends Controller
      */
     public function store(Request $request)
     {
-        $indicators = new Indicators();
+        if (\Request::ajax()) {
+            $messages = [
+                'nombre.required'    => __('Indicador Requerido'),
+            ];
 
-        $indicators->nombre = $request->nombre;
-        $indicators->materia = $request->materia;
-        $indicators->estatus = $request->estatus;
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'required',
+            ], $messages);
 
-        $indicators->save();
+            if ($validator->fails()) {
+                $result['status'] = 0;
+                $result['title'] = __('Indicators');
+                $result['message'] = '';
+                foreach ($validator->errors()->all() as $key => $value) {
+                    $result['message'] .= $value.'<br/>';
+                }
+                $result['data'] = null;
+                $result['type_message'] = 'error';
+                $result['redirect']     = route('indicators');
+                return $result;
+            } else {
+                try {
+                    $indicators = new Indicators();
 
-        return view('indicators.index');
+                    $indicators->nombre = $request->nombre;
+                    $indicators->materia = $request->materia;
+                    $indicators->estatus = $request->estatus;
+                    $indicators->save();
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $indicators = Indicators::find($id);
-
-        return view('indicators.show', compact('indicators'));
+                    $result['status']       = 1;
+                    $result['title']        = __('Indicators');
+                    $result['message']      = __('Successfully Stored');
+                    $result['type_message'] = 'success';
+                    $result['redirect']     = route('indicators');
+                } catch (Exception $e) {
+                    $result['status']       = 0;
+                    $result['title']        = __('Indicators');
+                    $result['message']      = $e->getMessage();
+                    $result['type_message'] = 'error';
+                    $result['redirect']     = route('indicators');
+                }
+                return $result;
+            }
+        } else {
+            return Redirect::to('home');
+        }
     }
 
     /**
@@ -69,32 +99,61 @@ class IndicatorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Indicators $indicators){
-    
-        /*$curs= indicators::find($id);
-
-        return $indicators;*/
-        return view('indicators.edit', compact('indicators'));
-    
-    }
-    public function update(Request $request, Indicators $indicators){
-        
-
-        $indicators->nombre = $request->nombre;
-        $indicators->materia = $request->materia;
-        $indicators->save();
-
-        return redirect()->route('indicators.show', $indicators->id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function edit($id)
     {
-        //
+        if (\Request::ajax()) {
+            $item = Indicators::find($id);
+            return view('indicators.edit', compact('item'));
+        } else {
+            return Redirect::to('home');
+        }
+    }
+    public function update(Request $request)
+    {
+        if (\Request::ajax()) {
+            $messages = [
+                'nombre.required'    => __('Nombre de la Competencia Requerida'),
+            ];
+
+            $validator = Validator::make($request->all(), [
+                'nombre'    => 'required',
+            ], $messages);
+
+            if ($validator->fails()) {
+                $result['status']  = 0;
+                $result['title']   = __('Indicators');
+                $result['message'] = '';
+                foreach ($validator->errors()->all() as $key => $value) {
+                    $result['message'] .= $value.'<br/>';
+                }
+                $result['data'] = null;
+                $result['type_message'] = 'error';
+                $result['redirect']     = route('indicators');
+                return $result;
+            } else {
+                try {
+                    $indicators = Indicators::find($request->id);
+
+                    $indicators->nombre = $request->nombre;
+                    // $indicators->materia = $request->materia;
+                    $indicators->save();
+
+                    $result['status']       = 1;
+                    $result['title']        = __('Indicators');
+                    $result['message']      = __('Updated');
+                    $result['type_message'] = 'success';
+                    $result['redirect']     = route('indicators');
+                } catch (Exception $e) {
+                    $result['status']       = 0;
+                    $result['title']        = __('Indicators');
+                    $result['message']      = $e->getMessage();
+                    $result['type_message'] = 'error';
+                    $result['redirect']     = route('indicators');
+                }
+                return $result;
+            }
+        } else {
+            return Redirect::to('home');
+        }
     }
 }

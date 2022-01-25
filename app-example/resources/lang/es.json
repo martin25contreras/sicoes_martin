@@ -1,0 +1,386 @@
+{
+
+	"TRADUCCION DEL MENU":"TRADUCCION DEL MENU",
+
+
+		"Academic Management":"Gestión Académica",
+	    "Administration Payment":"Administración de Pagos",
+	    "Administration Users":"Administrar Usuarios",
+	    "Administration Users of System":"Administración de Usuarios del Sistema",
+
+
+
+
+	"TRADUCCION DE LOS PROCESOS DEL MENU":"TRADUCCION DE LOS PROCESOS DEL MENU",
+
+
+	    "Access Restricteds":"Accesos Restringidos",
+	    "Create Menu":"Crear Menu",
+	    "Create Process of Menu":"Crear Procesos del Menu",
+	    "Management Competicies":"Gestionar Competencias",
+	    "Indicators":"Indicadores",
+	    "Indicators Lapse":"Indicadores Lapso",
+	    "Inscription":"Inscripción",
+	    "Maintenance":"Mantenimiento",
+	    "Maintenance of System":"Mantenimiento del Sistema",
+	    "Monitoring Attempts of Login":"Monitoreo Intentos de Inicio de Sesión",
+	    "Monitoring of Login":"Monitoreo de Inicio de Sesión",
+	    "Profiles":"Perfiles",
+	    "Register Staff":"Registrar Personal",
+	    "Staff Área":"Personal del Área",
+	    "Sessions Actives":"Sesiones Activas",
+	    "Time Inactivity":"Tiempo de Inactividad",
+
+
+	"TRADUCCION DEL APLICATIVO":"TRADUCCION DEL APLICATIVO",
+
+
+	"A":"A",
+
+		"8-15 Characters":"8-15 caracteres",
+		"Accept":"Aceptar",
+		"Access Restricteds":"Accesos Restringidos",
+		"Action":"Acción",
+		"Actions":"Acciones",
+		"Activate":"Activar",
+		"activated":"Activado",
+		"Activated":"Activado",
+		"All Users":"Todos los Usuarios",
+	    "April":"Abril",
+		"Assign Access Profile":"Asignar Perfil de Acceso",
+		"At least one capital letter":"Al menos una letra mayúscula",
+		"At least one number":"Al menos un número",
+		"At Least One Process Required":"Se requiere que seleccione al menos un proceso",
+		"At least one small letter":"Al menos una letra minúscula",
+		"At least one Special Character":"Al menos un carácter especial",
+	    "August":"Agosto",
+		"Avatar is Required":"Se requiere el Avatar",
+		"average":"Promedio",
+
+	"B":"B",
+
+		"Back":"Atrás",
+
+	"C":"C",
+
+		"Cancel":"Cancelar",
+		"Change Password":"Cambiar constraseña",
+		"close":"Cerrar",
+		"Code Area":"Código de Área",
+		"code Required":"Código es requerido",
+		"code":"Código",
+		"Code":"Código",
+		"Coin type edit":"Editar Tipo de Moneda",
+		"Coin type register":"Registro Tipo de Moneda",
+		"Coin Type":"Tipo de Moneda (Módulo de Prueba)",
+		"Confirm password":"Confirmar Contraseña",
+		"Confirmed":"Confirmada",
+		"Country":"País",
+		"Create Description": "Crear Descripción",
+		"Create Profil":"Crear Perfil",
+		"Create Profile":"Crear Perfil",
+		"Create User":"Crear Usuario",
+		"Create":"Crear",
+
+	"D":"D",
+
+		"dark":"Oscuro",
+		"Date End":"Fecha Fin",
+		"Date Start":"Fecha Inicio",
+		"Date":"Fecha",
+		"date":"Fecha",
+	    "December":"Diciembre",
+		"Delete":"Eliminar",
+		"Deleted":"Eliminado",
+		"Deleted":"Eliminado",
+		"Description already exists":"La descripción ya existe",
+		"Description Required":"Se requiere Descripción",
+		"Description":"Descripción",
+		"Description: Length of values not supported":"Descripción: Longitud de valores no admitida",
+		"destroy":"Eliminar",
+		"Do you want to extend the session?":"¿Desea extender tu sesión?",
+		"¿Do you wish to save changes?":"¿Desea guardar los cambios?",	
+		"Document already exists":"Documento Ya Existe",
+		"Document is Required":"Se requiere Documento",
+		"Document type is Required":"Se requiere Tipo de Documento",
+		"Document":"Documento",
+
+	"E":"E",
+
+		"Edit Description":"Editar Descripción",
+		"Edit Profile":"Editar Perfil",
+		"Edit User":"Editar Usuario",
+		"Edit":"Editar",
+		"EDIT":"EDITAR",
+		"E-mail already exists":"Correo Electrónico Ya existe",
+		"E-mail is Required":"Se requiere Correo Electrónico",
+		"Email":"Correo electrónico",
+		"English":"Inglés",
+		"Error Establishing a Database Connection": "Error Estableciendo Conexión con la Base de Datos",
+
+	"F":"F",
+
+	    "February":"Febrero",
+		"Format Incorrect":"Formato Incorrecto",
+	    "Fr":"Vie",
+		"Full Name":"Nombre Completo",
+
+	"G":"G",
+
+
+
+	"H":"H",
+
+		"has an active session":"Tiene una Sesión Activa",
+		"Hello, ":"Hola",
+		"Here":" Aquí",
+		"Home":"Inicio",
+		" has been updated":" Ha sido Actualizado",
+
+	"I":"I",
+
+		"If you are unaware of this operation, please contact our institution, writing to our support email: ":"Si desconoce esta operación, comuníquese con nuestra institución, escribiendo a nuestro correo electrónico de soporte:",
+		"inactivated":"Inactivado",
+		"inactive profile":"Perfil Inactivo",
+		"Incorrect idle time maximum value length":"Longitud de valores maximo del tiempo de inactividad incorrecto",
+		"Incorrect idle time minimum value length":"Longitud de valores minimo del tiempo de inactividad incorrecto",
+		"International Code":"Código Internacional",
+		"Invalid password max length":"Longitud maxima de contraseña no válida",
+		"Invalid password min length":"Longitud mínima de contraseña no válida",
+
+	"J":"J",
+
+		"January": "Enero",
+	    "July":"Julio",
+	    "June":"Junio",
+
+	"K":"K",
+
+		"Kill":"Destruir",
+
+	"L":"L",
+
+		"length of maximum unsupported for document":"Longitud máxima no admitida para Documento",
+		"length of maximum unsupported for phone":"Longitud máxima no admitida para Teléfono",
+		"length of minimum unsupported for phone":"Longitud mínima no admitida para Teléfono",
+		"light":"Claro",
+		"Loading...":"Cargando...",
+		"Local Operator":"Operador Local",
+		"Lock":"Bloquear",
+		"Log In":"Acceder",
+		"Log Out":"Cerrar Sesión",
+		"Login data":"Datos de Inicio de Sesión",
+		"Login":"Iniciar Sesión",
+		"login":"Iniciar Sesión",
+		"Logout":"Cerrar Sesión",
+		"logout":"Cerrar sesión",
+		" Locked":" Bloqueado",
+
+	"M":"M",
+
+		 "March":"Marzo",
+		"Maximum code length is 4 digits":"La longitud máxima del código es de 4 dígitos",
+	    "May":"Mayo",
+		"medium":"Medio",
+		"Minimum code length is 4 digits":"La longitud mínima del código es de 4 dígitos",
+		"Missing Required Fields":"Faltan Campos Obligatorios",
+	    "Mo":"Lun",
+		"Module":"Módulo",
+		"Monitoring Attempts of Login":"Monitoreo Intentos de Inicio de Sesión",
+		"Monitoring of Login":"Monitoreo de Inicio de Sesión",
+
+	"N":"N",
+
+		"Name Description":"Nombre Descripción",
+		"Name is Required":"Se requiere El Nombre",
+		"Name Profile already exists":"Nombre del Perfil Ya existe",
+		"Name Profile Required":"Nombre del Perfil es Requerido",
+		"Name Profile":"Nombre Perfil",
+		"Name Profile: Length of values not supported":"Nombre Perfil: Longitud de valores no admitida",
+		"Name":"Nombre",
+		"New +":"Nuevo +",
+		"New":"Nuevo",
+		"Next":"Siguiente",
+		"No data found":"Datos no encontrados",	
+		"Not":"No",
+	    "November":"Noviembre",
+
+	"Ñ":"Ñ",
+
+
+
+	"O":"O",
+
+	    "October":"Octubre",
+
+	"P":"P",
+
+		"Page Expired":"Página Expirada",
+		" password has been reset":" La Contraseña se ha restablecido",
+		"Password already exists":"Constraseña ya existe",
+		"Password confirmation Required":"Confirmar contraseña requerido",
+		"Password confirmation Required":"Confirmar contraseña requerido",
+		"Password confirmation Required":"Se requiere Confirmación de Contraseña",
+		"Password Confirmed":"Confirmar Contraseña",
+		"Password is Required":"Se requiere Contraseña",
+		"Password not match":"La contraseña no coincide",
+		"PASSWORD RESET":"RESTABLECER CONTRASEÑA",
+		"Password Updated":"Constraseña Actualizada",
+		"Password valid":"Constraseña válida",
+		"Password":"Contraseña",
+		"Password: ":"Contraseña",
+	   	"Permission Denied":"PERMISO DENEGADO",
+		"Permission":"Permiso",	
+		"Permissions stored successfully":"Permisos Guardado Correctamente",
+		"Permissions":"Permisos",
+		"Phone number is Required":"Se requiere Número de Teléfono",
+		"Phone Number":"Número de teléfono",
+		"Phone operator is Required":"Se requiere Teléfono de Operador",
+		"Phone":"Teléfono",
+		"Please Check the Form":"Por favor, verifique el formulario",
+		"Please do not reply to this email.":"Por favor, no responder a este Correo.",
+	    "Please go back to the login page and enter your details again.":"Por favor, regrese a la página de inicio de sesión e ingrese sus datos nuevamente.",
+		"Please Wait ... !":"Por Favor Espere ...!",
+		"Previous":"Atrás",
+		"Processing Data":"Procesando Información",
+		"Profil":"Perfil",
+		"Profile operator is Required":"Se requiere Perfil de Operador",
+		"Profile Required":"Se requiere Nombre de Perfil",
+		"Profile":"Perfil",
+		"Profiles Permissions":"Permisos de Perfil",
+		"Profiles Users":"Perfiles Usuarios",
+		"Profiles":"Perfiles",
+
+	"Q":"Q",
+
+
+
+	"R":"R",
+
+		"Reactivate":"Reactivar",
+		"redirect":"Sedireccionar",
+		"Register Description":"Registrar Descripción",
+		"Register Profile":"Registrar Perfil",
+		"Register Type Coin":"Registrar Tipo de Moneda",
+		"Register":"Registrarse",
+		"required":"Requerido",
+		"Reset Password":"Restablecer la Contraseña",
+		"Restored":"Restaurado",
+		"Return":"Regresar",
+		"Return":"Regresar",
+
+	"S":"S",
+
+		"Sa":"Sáb",
+		"Save":"Guardar",
+	    "Search error":"Error en busqueda",
+		"Search":"Buscar",
+		"Select":"Seleccione",
+		"select...":"Seleccione...",
+		"Select...":"Seleccione...",
+		"Selected in Process : ":"Seleccione un Proceso : ",
+		"Sensitive Info":"Información Sensible",	
+	    "September":"Septiembre",
+		"Session Lost!":"SESIÓN PERDIDA",
+		"Sessions Actives":"Sesiones Activas",
+		"Sorry - Page not found!":"Lo sentimos - Página no encontrada!",
+		"Sorry - We are undergoing maintenance!":"Lo sentimos - Nos encontramos en mantenimiento!",
+		"Spanish":"Español",
+		"Special Permission":"Permiso Especial",
+		"Start Date":"Fecha Inicio",
+		"Start Login":"Inicio de Sesión",
+		"Step 1 - 2":"Paso 1 - 2",
+		"Step 2 - 2":"Paso 2 - 2",
+		"Step":"Paso",
+	    "Stored":"Guardado",
+		"strong":"Fuerte",
+	    "Su":"Dom",
+		"Submit":"Enviar",
+		"success":"Satisfactorio",
+		"Successfully Stored":"Guardado Exitosamente",
+		"Surname is Required":"Se requiere Apellido",
+		"Surname":"Apellido",
+		"Symbol already exists":"El símbolo ya existe",
+		"Symbol":"Símbolo",
+
+	"T":"T",
+
+		"TEMPORARY PASSWORD: ":"CONTRASEÑA TEMPORAL: ",
+	    "Th":"Jue",
+		"Thank you for signing up for ":"Gracias por registrarte en ",
+		"The code already exists":"El código Ya Existe",
+		"The Code must be Numeric":"El Código debe ser numérico",
+		"The code must have a maximum of 4 digits":"El Código debe tener máximo de 4 dígitos",
+		"The code must have a minimum of 4 digits":"El Código debe tener minimo de 4 dígitos",
+	    "The Downtime Format is HOUR: MINUTES: SECONDS.":"El formato de tiempo de inactividad es HORA: MINUTOS: SEGUNDOS.",
+		"The idle time value must be 00:03:00 minutes or greater":"El valor del tiempo de inactividad debe ser de 00:03:00 minutos o mayor",
+		"The page you are looking for is under maintenance. Please try again later.":"La página que está buscando se encuentra en mantenimiento. Por favor intente de nuevo mas tarde.",
+		"The page you are looking for was moved, removed, renamed, or may never exist. You ran into a broken link.":"La página que está buscando se movió, quitó, renombró o podría no existir nunca. Te topaste con un enlace roto.",
+		"The password format is invalid":"El formato de la contraseña no es válido",
+		"The password format is invalid":"Formato de contraseña invalido",
+	    "The user has been created successfully":"El usuario ha sido creado con éxito",
+		"Theme":"Tema",
+		"This is an automatic message confirming your registration in the SICOES system.":"Este es un mensaje automático que confirma su registro en el sistema SICOES.",
+		"This is an automatic message from the SICOES system.":"Este es un mensaje automático del sistema SICOES.",
+		"Time Inactivity":"Tiempo Inactividad",
+		"Time of Inactivity is Required":"Tiempo de inactividad es requerido",
+	    "Tu":"Mar",
+		"Type Coin":"Tipo de Moneda",
+		"Type Document":"Tipo de Documento",
+		"Type of Coin":"Tipo de Moneda",
+
+	"U":"U",
+
+		"Unauthenticated User":"Usuario no Autenticado",
+		"Unlock":"Desbloquear",
+		"Update":"Actualizar",
+		"update":"Actualizar",
+	    "Updated":"Actualizado",
+		"User blocked":"Usuario Bloqueado",
+		"User Lock":"Bloqueo de Usuario",
+		"User not found":"Usuario No Encontrado",
+		"User Suspended":"Usuario Suspendido",
+		"User":"Usuario",
+		"USER: ":"USUARIO: ",
+		"User: ":"Usuario: ",
+		"Username is Required":"Se requiere Nombre de Usuario",
+		"Username Required":"Se requiere Nombre de Usuario",
+		"Username":"Nombre de Usuario",
+		"Users":"Usuario",
+		"Users":"Usuarios",
+		" Unlocked":" Desbloqueado",
+
+	"V":"V",
+
+		"very weak":"Muy Débil",
+
+
+	"W":"W",
+
+
+		"We invite you to enter our platform through the following link: ":"Lo invitamos a ingresar a nuestra plataforma a través del siguiente enlace:",
+	    "We":"Mié",
+		"weak":"Débil",
+		"Welcome":"Bienvenid@",
+		"WELCOME":"BIENVENIDO",
+		"Wrong Data":"Información Incorrecta",
+		"Wrong":"Error",
+
+	"X":"X",
+
+
+
+	"Y":"Y",
+
+		"Yes":"Si",
+	    "You do not have permission to perform this action.":"No tienes permiso para realizar esta acción.",
+		"Your password has been reset":"Tu contraseña ha sido restablecida.",
+		"Your request could not be processed":"Tu solicitud no pudo ser procesada",
+	    "Your session has been closed":"Tu sesión ha sido cerrada",
+
+
+	"Z":"Z"
+
+
+
+}

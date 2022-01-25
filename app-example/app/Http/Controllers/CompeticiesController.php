@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Competicies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class CompeticiesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar los registros
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $competicies = Competicies::orderBy('id','desc')->paginate();//Para paginar los registros
-
-
+        $competicies = Competicies::all();
         return view('competicies.index', compact('competicies'));
     }
 
@@ -27,7 +29,11 @@ class CompeticiesController extends Controller
      */
     public function create()
     {
-        return view('competicies.create');
+        if (\Request::ajax()) {
+            return view('competicies.create');
+        } else {
+            return Redirect::to('home');
+        }
     }
 
     /**
@@ -38,15 +44,52 @@ class CompeticiesController extends Controller
      */
     public function store(Request $request)
     {
-        $competicies = new Competicies();
+        if (\Request::ajax()) {
+            $messages = [
+                'nombre_competencia.required'    => __('Nombre de la Competencia Requerida'),
+            ];
 
-        $competicies->nombre_competencia = $request->competencia;
-        $competicies->estatus = 'Activo';
-        $competicies->ano_escolar = $request->ano_escolar;
+            $validator = Validator::make($request->all(), [
+                // 'nombre_competencia'    => 'required|max:5|unique:competencies,nombre_competencia',
+                'nombre_competencia' => 'required',
+            ], $messages);
 
-        $competicies->save();
+            if ($validator->fails()) {
+                $result['status'] = 0;
+                $result['title'] = __('Competencias');
+                $result['message'] = '';
+                foreach ($validator->errors()->all() as $key => $value) {
+                    $result['message'] .= $value.'<br/>';
+                }
+                $result['data'] = null;
+                $result['type_message'] = 'error';
+                $result['redirect']     = route('competicies');
+                return $result;
+            } else {
+                try {
+                    $competicies = new Competicies();
+                    $competicies->nombre_competencia = $request->nombre_competencia;
+                    $competicies->estatus            = 'Activo';
+                    $competicies->ano_escolar        = $request->ano_escolar;
+                    $competicies->save();
 
-        return view('competicies.index');
+                    $result['status']       = 1;
+                    $result['title']        = __('Competencias');
+                    $result['message']      = __('Successfully Stored');
+                    $result['type_message'] = 'success';
+                    $result['redirect']     = route('competicies');
+                } catch (Exception $e) {
+                    $result['status']       = 0;
+                    $result['title']        = __('Competencias');
+                    $result['message']      = $e->getMessage();
+                    $result['type_message'] = 'error';
+                    $result['redirect']     = route('competicies');
+                }
+                return $result;
+            }
+        } else {
+            return Redirect::to('home');
+        }
     }
 
     /**
@@ -55,35 +98,62 @@ class CompeticiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function edit($id)
     {
-        $competicies = Competicies::find($id);
-
-        return view('competicies.show', compact('competicies'));
+        if (\Request::ajax()) {
+            $item = Competicies::find($id);
+            return view('competicies.edit', compact('item'));
+        } else {
+            return Redirect::to('home');
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Competicies $competicies){
-    
-        /*$curs= Competicies::find($id);
+    public function update(Request $request)
+    {
+        if (\Request::ajax()) {
+            $messages = [
+                'nombre_competencia.required'    => __('Nombre de la Competencia Requerida'),
+            ];
 
-        return $competicies;*/
-        return view('competicies.edit', compact('competicies'));
-    
-    }
-    public function update(Request $request, Competicies $competicies){
-        
+            $validator = Validator::make($request->all(), [
+                'nombre_competencia'    => 'required',
+                // 'nombre_competencia'    => 'required|max:5|unique:type_coins,symbol,'.$request->id,
+            ], $messages);
 
-        $competicies->nombre_competencia = $request->competencia;
+            if ($validator->fails()) {
+                $result['status']  = 0;
+                $result['title']   = __('Competencias');
+                $result['message'] = '';
+                foreach ($validator->errors()->all() as $key => $value) {
+                    $result['message'] .= $value.'<br/>';
+                }
+                $result['data'] = null;
+                $result['type_message'] = 'error';
+                $result['redirect']     = route('competicies');
+                return $result;
+            } else {
+                try {
+                    $competicies = Competicies::find($request->id);
+                    $competicies->nombre_competencia = $request->nombre_competencia;
+                    $competicies->save();
 
-        $competicies->save();
-
-        return redirect()->route('competicies.show', $competicies->id);
+                    $result['status']       = 1;
+                    $result['title']        = __('Competencias');
+                    $result['message']      = __('Updated');
+                    $result['type_message'] = 'success';
+                    $result['redirect']     = route('competicies');
+                } catch (Exception $e) {
+                    $result['status']       = 0;
+                    $result['title']        = __('Competencias');
+                    $result['message']      = $e->getMessage();
+                    $result['type_message'] = 'error';
+                    $result['redirect']     = route('competicies');
+                }
+                return $result;
+            }
+        } else {
+            return Redirect::to('home');
+        }
     }
 
     /**

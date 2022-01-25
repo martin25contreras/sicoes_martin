@@ -3,123 +3,162 @@
 namespace App\Http\Controllers;
 
 use App\Models\Staff;
+use App\Models\TypeDocument;
+use App\Models\TelephoneOperator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use Exception;
 
 class StaffController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $staff = Staff::orderBy('id','desc')->paginate();//Para paginar los registros
+        //Para mostrar los registros
+        $staff = Staff::all();
 
         return view('staff.index', compact('staff'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('staff.create');
+        $operator       = TelephoneOperator::pluck('code', 'id');
+        $document_type  = TypeDocument::pluck('abreviacion', 'id');
+
+        return view('staff.create', compact('document_type', 'operator'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $fechas = ' ';
-        $fechas = explode("-", $request->fecha);
+        if (\Request::ajax()) {
+            $messages = [
+                'nombres.required'    => __('Nombre es Requerido'),
+            ];
 
-        $staff = new Staff();
+            $validator = Validator::make($request->all(), [
+                'nombres' => 'required',
+            ], $messages);
 
-        $staff->nombres = $request->nombres;
-        $staff->apellidos = $request->apellidos;
-        $staff->cedula = $request->cedula;
-        $staff->direccion = $request->direccion;
-        $staff->correo = $request->correo;
-        $staff->telefono = $request->telefono;
-        $staff->telefono_casa = $request->telefono_casa;
-        $staff->dia_nacimiento = $fechas[2];
-        $staff->mes_nacimiento = $fechas[1];
-        $staff->ano_nacimiento = $fechas[0];
-        $staff->cargo = $request->cargo;
+            if ($validator->fails()) {
+                $result['title'] = __('Personal');
+                $result['message'] = '';
+                foreach ($validator->errors()->all() as $key => $value) {
+                    $result['message'] .= $value.'<br/>';
+                }
+                $result['data'] = null;
+                $result['type_message'] = 'error';
+                $result['redirect']     = route('staff');
+            } else {
+                try {
+                    $date = Carbon::now();
+                    $date = Carbon::createFromFormat('d/m/Y', $request->fecha_nacimiento);
+                    $staff = new Staff();
 
-        $staff->save();
+                    $staff->nombres            = $request->nombres;
+                    $staff->apellidos          = $request->apellidos;
+                    $staff->cedula             = $request->cedula;
+                    $staff->direccion          = $request->direccion;
+                    $staff->correo             = $request->correo;
+                    $staff->telefono_movil     = $request->telefono_movil;
+                    $staff->telefono_casa      = $request->telefono_casa;
+                    $staff->tipo_documento_id  = $request->document_type;
+                    $staff->dia_nacimiento     = $date->format('d');
+                    $staff->mes_nacimiento     = $date->format('m');
+                    $staff->ano_nacimiento     = $date->format('Y');
+                    $staff->cargo              = $request->cargo;
+                    $staff->save();
 
-        return view('staff.index');
+                    $result['status']       = 1;
+                    $result['title']        = __('Personal');
+                    $result['message']      = __('Successfully Stored');
+                    $result['type_message'] = 'success';
+                    $result['redirect']     = route('staff');
+                } catch (Exception $e) {
+                    $result['status']       = 0;
+                    $result['title']        = __('Personal');
+                    $result['message']      = $e->getMessage();
+                    $result['type_message'] = 'error';
+                    $result['redirect']     = route('staff');
+                }
+                return $result;
+            }
+        } else {
+            return Redirect::to('home');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit($id)
     {
-        $staff = Staff::find($id);
+        if (\Request::ajax()) {
+            $document_type  = TypeDocument::pluck('abreviacion', 'id');
+            $item = Staff::find($id);
+            $fecha_nacimiento = $item->dia_nacimiento.'/'.$item->mes_nacimiento.'/'.$item->ano_nacimiento;
 
-        return view('staff.show', compact('staff'));
+            return view('staff.edit', compact('item', 'document_type', 'fecha_nacimiento'));
+        } else {
+            return Redirect::to('home');
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Staff $staff)
+
+    public function update(Request $request)
     {
-        return view('staff.edit', compact('staff'));
-    }
+        if (\Request::ajax()) {
+            $messages = [
+                'nombres.required'    => __('Nombre es Requerido'),
+            ];
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Staff $staff)
-    {
-        $fechas = ' ';
-        $fechas = explode("-", $request->fecha);
+            $validator = Validator::make($request->all(), [
+                'nombres'    => 'required',
+                // 'nombre_competencia'    => 'required|max:5|unique:type_coins,symbol,'.$request->id,
+            ], $messages);
 
-        $staff->nombres = $request->nombres;
-        $staff->apellidos = $request->apellidos;
-        $staff->cedula = $request->cedula;
-        $staff->direccion = $request->direccion;
-        $staff->correo = $request->correo;
-        $staff->telefono = $request->telefono;
-        $staff->telefono_casa = $request->telefono_casa;
-        $staff->dia_nacimiento = $fechas[2];
-        $staff->mes_nacimiento = $fechas[1];
-        $staff->ano_nacimiento = $fechas[0];
-        $staff->cargo = $request->cargo;
+            if ($validator->fails()) {
+                $result['title']   = __('Personal');
+                $result['message'] = '';
+                foreach ($validator->errors()->all() as $key => $value) {
+                    $result['message'] .= $value.'<br/>';
+                }
+                $result['data'] = null;
+                $result['type_message'] = 'error';
+                $result['redirect']     = route('staff');
+            } else {
+                try {
+                    $staff = Staff::find($request->id);
+                    $staff->nombres           = $request->nombres;
+                    $staff->apellidos         = $request->apellidos;
+                    $staff->cedula            = $request->cedula;
+                    $staff->direccion         = $request->direccion;
+                    $staff->correo            = $request->correo;
+                    $staff->telefono_movil    = $request->telefono_movil;
+                    $staff->telefono_casa     = $request->telefono_casa;
+                    $staff->tipo_documento_id = $request->document_type;
+                    $staff->dia_nacimiento    = $request->dia_nacimiento;
+                    $staff->mes_nacimiento    = $request->mes_nacimiento;
+                    $staff->ano_nacimiento    = $request->ano_nacimiento;
+                    $staff->cargo             = $request->cargo;
 
-        $staff->save();
+                    $staff->save();
 
-        return redirect()->route('staff.show', $staff->id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+                    $result['status']       = 1;
+                    $result['title']        = __('Personal');
+                    $result['message']      = __('Updated');
+                    $result['type_message'] = 'success';
+                    $result['redirect']     = route('staff');
+                } catch (Exception $e) {
+                    $result['status']       = 0;
+                    $result['title']        = __('Personal');
+                    $result['message']      = $e->getMessage();
+                    $result['type_message'] = 'error';
+                    $result['redirect']     = route('staff');
+                }
+                return $result;
+            }
+        } else {
+            return Redirect::to('home');
+        }
     }
 }

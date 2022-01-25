@@ -1,0 +1,172 @@
+{
+
+	"TRADUCCION DEL MENU":"TRADUCCION DEL MENU",
+
+		"Administrar Usuarios":"Administration Users",
+	    "Administración de Pagos":"Administration Payment",
+	    "Administración de Usuarios del Sistema":"Administration Users of System",
+		"Gestión Académica":"Academic Management",
+	    "Usuarios":"Users",		
+
+
+	"TRADUCCION DE LOS PROCESOS DEL MENU":"TRADUCCION DE LOS PROCESOS DEL MENU",
+
+
+	    "Accesos Restringidos":"Access Restricteds",
+	    "Crear Menu":"Create Menu",
+	    "Crear Procesos del Menu":"Create Process of Menu",
+	    "Gestionar Competencias":"Management Competicies",
+	    "Indicadores":"Indicators",
+	    "Indicadores Lapso":"Indicators Lapse",
+	    "Inscripción":"Inscription",
+	    "Mantenimiento":"Maintenance",
+	    "Mantenimiento del Sistema":"Maintenance of System",
+	    "Monitoreo Intentos de Inicio de Sesión":"Monitoring Attempts of Login",
+	    "Monitoreo de Inicio de Sesión":"Monitoring of Login",
+	    "Perfiles":"Profiles",
+	    "Registrar Personal":"Register Staff",
+	    "Personal del Área":"Staff Área",
+	    "Sesiones Activas":"Sessions Actives",
+	    "Tiempo de Inactividad":"Time Inactivity",
+
+
+
+	"TRADUCCION DEL APLICATIVO":"TRADUCCION DEL APLICATIVO",
+
+
+	"A":"A",
+
+		"Activado":"Activated",
+		"Activo":"Active",
+		"Administrador":"Administrator",
+		"Analista":"Analyst",
+		"Matemática":"Mathematics",
+
+
+	"B":"B",
+
+		"Bienvenid@":"Welcome",
+
+
+	"C":"C",
+
+		"Cerrar":"Close",
+		"Claro":"light",
+		"Coordinador":"Coordinator",
+
+
+
+	"D":"D",
+
+
+	"E":"E",
+
+		"Enviar":"Submit",
+		"Error Estableciendo Conexión con la Base de Datos": "Error Establishing a Database Connection",
+
+
+	"F":"F",
+
+
+	"G":"G",
+
+		"Guardar":"Save",
+
+
+	"H":"H",
+
+
+
+	"I":"I",
+
+		"Inactivado":"Inactivated",
+		"Inactivo":"Inactive",
+
+
+
+	"J":"J",
+
+
+
+
+	"K":"K",
+
+
+
+	"L":"L",
+
+
+
+	"M":"M",
+
+		"Mantenimiento":"Maintenance",
+		"Maestra Integral":"Comprehensive Teacher",
+		"Maestra Especialista":"Specialist Teacher",
+
+	"N":"N",
+
+
+
+	"Ñ":"Ñ",
+
+
+
+	"O":"O",
+
+		"Oscuro":"dark",
+
+
+	"P":"P",
+
+		"Primer Momento":"First moment",
+
+
+
+	"Q":"Q",
+
+
+
+	"R":"R",
+
+		"Registrarse":"Register",
+
+
+	"S":"S",
+
+		"Segundo Momento":"Second moment",
+
+
+
+	"T":"T",
+
+		"Tema":"Theme",
+		"Tercer Momento":"Third Moment",
+
+
+	"U":"U",
+
+
+
+	"V":"V",
+
+
+
+	"W":"W",
+
+
+
+	"X":"X",
+
+
+
+	"Y":"Y",
+
+
+
+	"Z":"Z"
+
+	
+	
+	
+
+}

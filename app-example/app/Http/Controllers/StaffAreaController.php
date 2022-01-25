@@ -7,179 +7,84 @@ use App\Models\Staff;
 use App\Models\StaffArea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
+use App\Helpers\Encryptor;
+use Illuminate\Support\Facades\Redirect;
+use Validator;
+use Exception;
+use DataTables;
 
 class StaffAreaController extends Controller
 {
-    /**
-     * AQUI HAY QUE AGREGAR EL ID DE CADA UNA DE LAS MATERIAS INTEGRALES
-     * matematica, lenguaje, ciencia naturales, ciencia sociales, estetica, ser y vivir 
-     * DE LAS 3 SECCIONES
-     */
-    protected $ListadoAreaIntegrales = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $staffarea = DB::table('staff_has_area')
-                    ->join('area', 'area.id', '=', 'staff_has_area.id_area')
-                    ->join('staff', 'staff.cedula', '=', 'staff_has_area.cedula_personal')
-                    ->select('area.nombre', 'staff.nombres', 'staff.apellidos', 'staff.cargo')
-                    ->get();
+        $staffarea = Staff::get()->toArray();
         return view('Staffarea.index', compact('staffarea'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function viewAsigne($id)
     {
-        $staff = Staff::all();        
 
-        return view('Staffarea.create', compact('staff'));
+        $item            = Staff::find($id);
+        $nombre_apellido = $item->nombres.' '.$item->apellidos;
+        $areaMaterias    = Area::where('estatus', 1)->get()->pluck('materia_seccion', 'id');
+        $areaGrado       = Area::get()->pluck('grado', 'crypt_id');
+        $areaSeccion     = Area::get()->pluck('seccion', 'crypt_id');
+
+        return view('Staffarea.asigne', compact('item','areaMaterias','areaGrado','areaSeccion','nombre_apellido'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $id = $request->personal;
-        $staff = Staff::where('cedula', '=', $id)->get();
-        $area = Area::all();
-        $staffarea = DB::table('staff_has_area')
-                    ->join('area', 'area.id', '=', 'staff_has_area.id_area')
-                    ->select('staff_has_area.id_area')
-                    ->get();
-        $error = ' ';
+        if (\Request::ajax()) {
+                $messages = [
+                    'materias.required' => __('La Área de Formación es Requerido'),
+                ];
 
-        return view('Staffarea.show', compact('staff', 'area', 'staffarea', 'error'));
-    }
-    public function asigne(Request $request)
-    {
-        $areasAsignadas = [];
-        $contadorAreas=0;
-        $staffarea2 = DB::table('staff_has_area')
-                    ->join('area', 'area.id', '=', 'staff_has_area.id_area')
-                    ->select('staff_has_area.id_area')
-                    ->get();
+                $validator = Validator::make($request->all(), [
+                    'materias'          => 'required',
+                ], $messages);
 
-        foreach($staffarea2 as $item){
-            $areasAsignadas[$contadorAreas] = $item->id_area;
-            $contadorAreas++;
-        }        
-       
-        $existe = false;
-        for ($index=0; $index < count($request->array); $index++) { 
-            $staffarea = new StaffArea();
-            $staffarea->cedula_personal = $request->cedula;
-            $staffarea->id_area = $request->array[$index];
+                if ($validator->fails()) {
+                    $result['status']  = 0;
+                    $result['title']   = __('Área');
+                    $result['message'] = '';
+                    foreach ($validator->errors()->all() as $key => $value) {
+                        $result['message'] .= $value.'<br/>';
+                    }
+                    $result['data'] = null;
+                    $result['type_message'] = 'error';
+                    $result['redirect']     = route('staff_area');
+                } else {
+                    try {
 
-            $contadorAreas=0;
-            
-            $existe = false;
+                        $Staff = Staff::get()->toArray();
 
-            for ($index2=0; $index2 < count($this->ListadoAreaIntegrales); $index2= $index2+3) {                
-                
-                if( $request->array[$index] == $this->ListadoAreaIntegrales[$index2]){
-                    if($areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2+1] || 
-                        $areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2+2])
-                        $existe = true;                                       
-                } else
-                    if( $request->array[$index] == $this->ListadoAreaIntegrales[$index2+1]){
-                        if($areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2] || 
-                            $areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2+2])
-                            $existe = true;                                         
-                    }  
-                    else
-                        if( $request->array[$index] == $this->ListadoAreaIntegrales[$index2+2]){
-                            if($areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2+1] || 
-                                $areasAsignadas[$contadorAreas] == $this->ListadoAreaIntegrales[$index2])
-                                $existe = true;                                             
-                        }  
-                $contadorAreas++;
-            }
-            if($existe == false ){
-                $staffarea->save();
+                        $StaffArea = new StaffArea();
+                        $StaffArea->personal_id      = $Staff[0]['id'];
+                        $StaffArea->cedula_personal  = $request->cedula;
+                        $StaffArea->area_id          = $request->materias;
+                        $StaffArea->save();
 
-                $staffarea = DB::table('staff_has_area')
-                    ->join('area', 'area.id', '=', 'staff_has_area.id_area')
-                    ->join('staff', 'staff.cedula', '=', 'staff_has_area.cedula_personal')
-                    ->select('area.nombre', 'staff.nombres', 'staff.apellidos', 'staff.cargo')
-                    ->get();
-                return view('Staffarea.index', compact('staffarea'));
-            }
-            else {
-                $id = $request->cedula;
-                $error = "No puedes tener mas materias integrales iguales";
-                $staff = Staff::where('cedula', '=', $id)->get();
-                $area = Area::all();
-                $staffarea = DB::table('staff_has_area')
-                            ->join('area', 'area.id', '=', 'staff_has_area.id_area')
-                            ->select('staff_has_area.id_area')
-                            ->get();
+                        $updateArea = Area::where('id', $request->materias)->update(['estatus' => 0]);
 
-                return view('Staffarea.show', compact('staff', 'area', 'staffarea', 'error'));
-                
-            }
+                        $result['status']       = 1;
+                        $result['title']        = __('Área');
+                        $result['message']      = __('Successfully Stored');
+                        $result['type_message'] = 'success';
+                        $result['redirect']     = route('staff_area');
+
+                    } catch (Exception $e) {
+                        $result['status']       = 0;
+                        $result['title']        = __('Área');
+                        $result['message']      = $e->getMessage();
+                        $result['type_message'] = 'error';
+                        $result['redirect']     = route('staff_area');
+                    }
+                }
+            return $result;
+        } else {
+            return Redirect::to('home');
         }
-        
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request)
-    {
-        $id = $request->personal;
-        $staff = Staff::find($id);
-
-        return view('Staffarea.show', compact('staff'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

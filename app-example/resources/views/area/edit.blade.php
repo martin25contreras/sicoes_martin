@@ -1,46 +1,54 @@
-@extends('layouts.plantilla')
+<div class="content-table"> 
 
-@section('title', 'Area Edit')
+    <div class="row">
 
-@section('content')
-    <h1>En esta pagina podras editar su Indicador</h1>
+        <div class="col-md-3">
+            <h3 class="left"><i class="fa fa-tag"></i>{{__('Editar Área')}} </h3> 
+        </div>
+        {{-- <div class="leyend-data">En esta página podras editar los datos del Área de la institución</div> --}}
 
-    <form action="{{ route('area.update', $area) }}" method="post"> 
-        
-        @csrf
+        <div class="col-md-9">
 
-        @method('put')
+            <div class="content-space te-0">
 
-        <input type="text" name="id" value="{{ $area->id; }}" hidden>
+                
+                {{ Form::open(['route'=>'area.update','id'=>'frmArea','autocomplete'=>'Off', 'class' => 'validate' ]) }}
+                {{ Form::hidden('id', (isset($item['crypt_id']))?$item['crypt_id']:"")}}
 
-        <label for="">Nombre del Área: <br> 
-            <input type="text" name="nombre" value="{{ $area->nombre; }}">
-        </label><br><br>  
+                <div class="row">
+                    <div class="col-mx-12 col-sm-12 col-md-6 mb-3">
 
-        <label for="">Carga Horaria: <br> 
-            <input type="number" name="carga_horaria" min="1" value="{{ $area->carga_horaria; }}">
-        </label><br><br>  
-        
-        <label for="">Grado: <br> 
-            <select name="grado">
-                <option value="{{ $area->grado; }}">{{ $area->grado; }}</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-            </select>
-        </label><br><br> 
-        <label for="">Sección: <br> 
-            <select name="seccion">
-                <option value="{{ $area->seccion; }}"> {{ $area->seccion; }}</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-            </select>
-        </label><br><br> 
-        <br><br>
-        <input type="submit" value="Enviar">
-    </form>
-@endsection
+                        {{ Form::label('nombre', __('Nombre Área'), ['class' => 'required mb-1'])}}
+                        {{ Form::text('nombre', $item['nombre'], ['class' => 'form-control  required', 'id'=> 'nombre','placeholder'=>__('Nombre Área'),'maxlength'=>'100']) }}       
+                    </div>
+                    <div class="col-mx-12 col-sm-12 col-md-6 mb-3">
+
+                        {{ Form::label('carga_horaria', __('Carga Horaria: '), ['class' => 'title'])}}              
+                        {{ Form::number('carga_horaria', $item['carga_horaria'], ['class' => 'form-control number required', 'id'=> 'carga_horaria', 'required' => 'required','minlength' => '1']) }}                                
+                    </div>
+                    <div class="col-mx-12 col-sm-12 col-md-6 mb-3">
+
+                        {{ Form::label('grado', __('Grado'), ['class' => 'required title'])}}
+                        {{ Form::select('grado', ['1'=>__('1'), '2'=>__('2'), '3'=>__('3'), '4'=>__('4'), '5'=>__('5'), '6'=>__('6')], $item['grado'], ['class' => 'form-select required', 'id'=> 'grado','placeholder'=>__('Select...')]) }}                          
+                    </div>
+                    <div class="col-mx-12 col-sm-12 col-md-6 mb-3">
+
+                        {{ Form::label('seccion', __('Sección'), ['class' => 'required title'])}}
+                        {{ Form::select('seccion', ['A'=>__('A'), 'B'=>__('B'), 'C'=>__('C')], $item['seccion'], ['class' => 'form-select required', 'id'=> 'seccion','placeholder'=>__('Select...')]) }}                          
+                    </div>
+                </div>
+                <div class="col-5 mx-auto">
+                    <a class="btn btn-secondary back link_ajax" data-dataType="html" href="{{route('area')}}"> {{ __('Back') }} </a>
+
+                    {{ Form::button(__('Save'), [ 'id' => 'save','class' => 'btn btn-primary save', 'type' => 'submit']) }}
+                </div>
+                
+                {{ Form::close() }} 
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

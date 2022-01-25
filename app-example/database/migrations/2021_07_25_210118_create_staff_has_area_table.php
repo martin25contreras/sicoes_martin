@@ -13,11 +13,16 @@ class CreateStaffHasAreaTable extends Migration
      */
     public function up()
     {
-        Schema::create('staff_has_area', function (Blueprint $table) {
+        Schema::create('personal_area', function (Blueprint $table) {
             $table->id();
-            $table->integer('cedula_personal');
-            $table->integer('id_area');
-            $table->timestamps();
+            $table->string('cedula_personal',20);
+
+            $table->unsignedBigInteger('area_id');
+            $table->unsignedBigInteger('personal_id');
+            $table->boolean('estatus')->default(true);
+
+            $table->foreign('area_id')->references('id')->on('area');                  
+            $table->foreign('personal_id')->references('id')->on('personal');                      
         });
     }
 
@@ -28,6 +33,6 @@ class CreateStaffHasAreaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('staff_has_area');
+        Schema::dropIfExists('personal_area');
     }
 }

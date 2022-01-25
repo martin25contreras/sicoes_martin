@@ -13,12 +13,11 @@ class CreateIndicatorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('indicators', function (Blueprint $table) {
+        Schema::create('indicadores', function (Blueprint $table) {
             $table->id();
-            $table->char('nombre');
-            $table->char('materia');
+            $table->string('nombre',100);
+            $table->string('materia',100);
             $table->enum('estatus', ['Activo', 'Inactivo']);
-            $table->timestamps();
         });
     }
 
@@ -29,6 +28,6 @@ class CreateIndicatorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('indicators');
+        Schema::dropIfExists('indicadores');
     }
 }

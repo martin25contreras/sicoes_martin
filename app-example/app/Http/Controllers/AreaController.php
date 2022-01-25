@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Area;
 use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class AreaController extends Controller
 {
@@ -15,7 +19,7 @@ class AreaController extends Controller
      */
     public function index()
     {
-        $area = Area::orderBy('grado','asc')->paginate();//Para paginar los registros
+        $area = Area::all();
 
         return view('area.index', compact('area'));
     }
@@ -27,50 +31,61 @@ class AreaController extends Controller
      */
     public function create()
     {
-        return view('area.create');
+        if (\Request::ajax()) {
+            return view('area.create');
+        } else {
+            return Redirect::to('home');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
-    {      
-        $area = Area::where('nombre', "=", $request->nombre_area)
-                    ->where('grado', "=", $request->grado)
-                    ->where('seccion', "=", $request->seccion)
-                    ->get();
-
-        
-        if(!empty($area[0])){
-            var_dump($area[0]);
-        }else{
-            $area = new Area();
-
-            $area->nombre = $request->nombre_area;
-            $area->carga_horaria = $request->carga_horaria;
-            $area->grado = $request->grado;
-            $area->seccion = $request->seccion;
-
-            $area->save();
-
-            return view('area.index', compact('area'));
-        }    
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
     {
-        $area = Area::find($id);
+        if (\Request::ajax()) {
+            $messages = [
+                'nombre.required'    => __('Nombre del Área Requerida'),
+            ];
 
-        return view('area.show', compact('area'));
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'required',
+            ], $messages);
+
+            if ($validator->fails()) {
+                $result['status'] = 0;
+                $result['title'] = __('Área');
+                $result['message'] = '';
+                foreach ($validator->errors()->all() as $key => $value) {
+                    $result['message'] .= $value.'<br/>';
+                }
+                $result['data'] = null;
+                $result['type_message'] = 'error';
+                $result['redirect']     = route('area');
+            } else {
+                try {
+                    $area = new Area();
+
+                    $area->nombre = $request->nombre;
+                    $area->carga_horaria = $request->carga_horaria;
+                    $area->grado = $request->grado;
+                    $area->seccion = $request->seccion;
+                    $area->save();
+
+                    $result['status']       = 1;
+                    $result['title']        = __('Área');
+                    $result['message']      = __('Successfully Stored');
+                    $result['type_message'] = 'success';
+                    $result['redirect']     = route('area');
+                } catch (Exception $e) {
+                    $result['status']       = 0;
+                    $result['title']        = __('Área');
+                    $result['message']      = $e->getMessage();
+                    $result['type_message'] = 'error';
+                    $result['redirect']     = route('area');
+                }
+            }
+            return $result;
+        } else {
+            return Redirect::to('home');
+        }
     }
 
     /**
@@ -79,9 +94,14 @@ class AreaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Area $area){
-    
-        return view('area.edit', compact('area'));    
+    public function edit($id)
+    {
+        if (\Request::ajax()) {
+            $item = Area::find($id);
+            return view('area.edit', compact('item'));
+        } else {
+            return Redirect::to('home');
+        }
     }
 
     /**
@@ -91,38 +111,52 @@ class AreaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Area $area){
-    
-        $area = Area::where('nombre', "=", $request->nombre_area)
-                    ->where('grado', "=", $request->grado)
-                    ->where('seccion', "=", $request->seccion)
-                    ->get();
-
-        
-        if(!empty($area[0])){
-            var_dump($area[0]);
-        }else{           
-            $area = Area::find($request->id);
-
-            $area->nombre = $request->nombre;
-            $area->carga_horaria = $request->carga_horaria;
-            $area->grado = $request->grado;
-            $area->seccion = $request->seccion;
-
-            $area->save();
-
-            return redirect()->route('area.show', $area->id);
-        }    
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function update(Request $request)
     {
-        //
+        if (\Request::ajax()) {
+            $messages = [
+                'nombre.required'    => __('Nombre del Área Requerida'),
+            ];
+
+            $validator = Validator::make($request->all(), [
+                'nombre'    => 'required',
+            ], $messages);
+
+            if ($validator->fails()) {
+                $result['status']  = 0;
+                $result['title']   = __('Área');
+                $result['message'] = '';
+                foreach ($validator->errors()->all() as $key => $value) {
+                    $result['message'] .= $value.'<br/>';
+                }
+                $result['data'] = null;
+                $result['type_message'] = 'error';
+                $result['redirect']     = route('area');
+            } else {
+                try {
+                    $area = Area::find($request->id);
+                    $area->nombre = $request->nombre;
+                    $area->carga_horaria = $request->carga_horaria;
+                    $area->grado = $request->grado;
+                    $area->seccion = $request->seccion;
+                    $area->save();
+
+                    $result['status']       = 1;
+                    $result['title']        = __('Área');
+                    $result['message']      = __('Successfully Stored');
+                    $result['type_message'] = 'success';
+                    $result['redirect']     = route('area');
+                } catch (Exception $e) {
+                    $result['status']       = 0;
+                    $result['title']        = __('Área');
+                    $result['message']      = $e->getMessage();
+                    $result['type_message'] = 'error';
+                    $result['redirect']     = route('area');
+                }
+            }
+            return $result;
+        } else {
+            return Redirect::to('home');
+        }
     }
 }
